@@ -14,6 +14,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+# Build with GApps if GAPPS_BUILD is true
+ifeq ($(GAPPS_BUILD),true)
+    WITH_GAPPS := true
+    TARGET_GAPPS_ARCH := arm64
+    IS_PHONE := true
+    TARGET_SHIPS_SEPERATE_GAPPS_BUILD := true
+endif
 
 # Inherit from those products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
@@ -22,12 +29,10 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 # Inherit from gemini device
 $(call inherit-product, device/xiaomi/gemini/device.mk)
 
-# Inherit some common PixelExperience stuff.
-$(call inherit-product, vendor/aosp/config/common_full_phone.mk)
-TARGET_BOOT_ANIMATION_RES := 1080
+# Inherit some common AEX stuff.
+$(call inherit-product, vendor/aosp/common.mk)
 
-#GApps
-TARGET_GAPPS_ARCH := arm64
+TARGET_BOOT_ANIMATION_RES := 1080
 
 # Device identifier. This must come after all inclusions.
 PRODUCT_NAME := aosp_gemini
